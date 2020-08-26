@@ -1,0 +1,33 @@
+
+.text {
+  text-align: center;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+body {
+  font-family: system-ui;
+  background-image: url("https://i.pinimg.com/564x/02/90/77/02907708ae93ad3ff4240d84ced75812.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position-y:center;
+  color: black;
+}
+
+h2 {
+  text-align: center;
+}
+  
+button {
+  border: 2px solid black;
+  background-color:lightblue;
+  border-radius: 10px; 
+  padding: 25px;
+  text-align: center;
+  font-size: 25px;
+  margin: 0 auto;
+  width: 144px;
+  
+}
+  
+  
