@@ -1,24 +1,42 @@
-
-.text {
-  text-align: center;
-  font-size: 35px;
-  font-weight: bold;
-}
-
 body {
   font-family: system-ui;
+  /* 
   background-image: url("https://i.pinimg.com/564x/02/90/77/02907708ae93ad3ff4240d84ced75812.jpg");
   background-repeat: no-repeat;
   background-size: 100% auto;
-  background-position-y:center;
+  background-position-y:center; 
+  */
+  background: #DE6262;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FFB88C, #DE6262);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FFB88C, #DE6262); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color: black;
 }
 
-h2 {
-  text-align: center;
+body #header {
+  font-size: 55px;
+  font-weight: bold;
+  display: table;
+  margin-right: auto;
+  margin-left: auto;
 }
+
+body #content {
+  border-radius: 25px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  margin: 50px;
+}
+
   
-button {
+#buttons {
+  display: table;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px 20px 0px 20px;
+}
+
+#buttons button {
   border: 2px solid black;
   background-color:lightblue;
   border-radius: 10px; 
@@ -26,8 +44,44 @@ button {
   text-align: center;
   font-size: 25px;
   margin: 0 auto;
+  cursor: pointer;
+  margin: 0px 20px 0px 20px;
   width: 144px;
   
 }
-  
-  
+
+#main_game_table {
+  border-collapse: collapse;
+  border-radius: 30px;
+  border-style: hidden; /* hide standard table (collapsed) border */
+  box-shadow: 0 0 0 1px #666; /* this draws the table border  */ 
+  margin: auto;
+  background-color: white;
+}
+
+#main_game_table td {
+ width: 100px;
+ height: 100px;
+ text-align: center;
+ border: 1px solid black;
+ padding: 30px;
+
+}
+
+#main_game_table td a {
+    font-size: 20px;
+    text-decoration: none;
+}
+
+#main_game_table td img {
+  width: 100px;
+  height: 100px
+}
+
+#content h2 {
+  text-align: center;
+}
+
+#h2_above_table_h2 {
+  font-size: 35px;
+}

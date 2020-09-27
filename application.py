@@ -44,7 +44,7 @@ def play(row, col):
     return redirect(url_for("game")) 
 
 # The user let computer make a move.
-@app.route("/ComputerMove")
+@app.route("/computerMove")
 def move():
     result = minmax(session["board"], session["turn"])
     if (result[1] != None):
