@@ -1,14 +1,9 @@
 body {
-  font-family: system-ui;
-  /* 
+  font-family: system-ui; 
   background-image: url("https://i.pinimg.com/564x/02/90/77/02907708ae93ad3ff4240d84ced75812.jpg");
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position-y:center; 
-  */
-  background: #fafafa;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #ffff, #fafafa);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #ffff, #fafafa); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color: black;
 }
 
