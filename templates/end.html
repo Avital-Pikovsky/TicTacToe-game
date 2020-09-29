@@ -1,18 +1,16 @@
 {% extends "layout.html" %}
 {% block content%}
 
-<h2>{{ result }} is the winner!!!</h2>
-
 <div id="winner_image">
     {% if result == "X" %}
-    <img src="https://freetictactoe.com/images/mark-x.png"/>
+    <h2> <img src="https://freetictactoe.com/images/mark-x.png"/> is the winner!!! </h2>
     {% elif result == "O" %}
-    <img src="https://freetictactoe.com/images/mark-o.png"/>
+    <h2> <img src="https://freetictactoe.com/images/mark-o.png"/> is the winner!!! </h2>
     {% endif %}
     </div>
 
 <div id="buttons">
-<a href="/reset"><button class="button">Wanna play again?</button></a>
+<a href="/reset"><button class="button">Do you want to play again?</button></a>
 </div>
     
 {% endblock %}
