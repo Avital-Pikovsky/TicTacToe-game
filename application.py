@@ -59,12 +59,15 @@ def game():
         )
         cursor = list(mongo.db.players.find({"winner": {"$exists": True}}))
         # Clean the cache for new game
-        session.pop('board')
+        session.clear()
 
         return render_template("end.html", result = result[1], player_name = player_name, history = cursor)
     elif(result[0] == False):
+        
+        cursor = list(mongo.db.players.find({"winner": {"$exists": True}}))
+
         # Clean the cache for new game
-        session.pop('board')
+        session.clear()
 
         return render_template("draw.html", result = "It's a draw, play again!", history = cursor)
 
