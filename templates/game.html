@@ -1,16 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h2 id="h2_above_table_h2">It's {{ turn }}'s turn</h2>
+<h2>It's {{ turn }}'s turn</h2>
 <table id="main_game_table">
     {% for i in range(3) %}
     <tr>
         {% for j in range(3) %}
         <td>
             {% if game[i][j] == "X" %}
-                <img src="https://www.clipartmax.com/png/middle/134-1340885_swarm-bee-x-delete-comments-tic-tac-toe-cross.png"/>
+                <img src="https://freetictactoe.com/images/mark-x.png"/>
             {% elif game[i][j] == "O" %}
-                <img src="https://www.pinclipart.com/picdir/middle/155-1552504_tic-tac-toe-circle-clipart.png"/>
+                <img src="https://freetictactoe.com/images/mark-o.png"/>
             {% else %}
                 <a href="{{ url_for('play', row=i, col=j) }}">Play {{ turn }} here.</a>
             {% endif %}
