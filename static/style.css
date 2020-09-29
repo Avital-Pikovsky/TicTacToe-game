@@ -96,3 +96,28 @@ input[type=text] {
   border-radius: 8px;
   box-sizing: border-box;
 }
+
+#scores {
+  display: table;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#scores h2 {
+  color: darkred;
+}
+
+#scores #scores_table {
+  border-collapse: collapse;
+  padding: 15px;
+  border-radius: 8px;
+  border-style: hidden; /* hide standard table (collapsed) border */
+  box-shadow: 0 0 0 1px #666; /* this draws the table border  */ 
+
+}
+
+#scores #scores_table td {
+ text-align: center;
+ border: 1px solid black;
+ padding: 10px;
+}

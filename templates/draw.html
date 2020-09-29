@@ -7,5 +7,30 @@
     <a href="/reset"><button class="button">Wanna play again?</button></a>
 </div>
 
+<div id="scores">
+    <h2>Scores:</h2>
+    <table id="scores_table">
+        <tr>
+            <th>Player X</th>
+            <th>Player O</th>
+            <th>Winner</th>
+        </tr>
+        {% for record in history %}
+        <tr>
+            <td>
+              {{ record.xname }}
+            </td>
+            <td>
+                {{ record.oname }}
+            </td>
+            <td>
+               {{ record.winner}}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>   
+    
+
 
 {% endblock %}

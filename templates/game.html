@@ -1,7 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h2>It's {{ turn }}'s turn</h2>
+<h2>It's {{ turn }}'s 
+    (
+    {% if turn == "X" %} 
+        {{xname}} 
+    {% else %} 
+        {{oname}}
+    {% endif %}    
+    ) turn</h2>
+<h2>{{ xname }} VS {{ oname }} </h2>
 
 <table id="main_game_table">
     {% for i in range(3) %}

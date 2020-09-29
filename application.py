@@ -1,8 +1,12 @@
-from flask import Flask, render_template, session, redirect, url_for
+from flask import Flask, render_template, session, request, redirect, url_for
 from flask_session import Session
 from tempfile import mkdtemp
+from flask_pymongo import PyMongo
 
 app = Flask(__name__)
+app.config["MONGO_URI"] = "mongodb://avitalUsr:316331198@avital-shard-00-00.akkop.mongodb.net:27017,avital-shard-00-01.akkop.mongodb.net:27017,avital-shard-00-02.akkop.mongodb.net:27017/CS50TicTacToe?ssl=true&replicaSet=Avital-shard-0&authSource=admin&retryWrites=true&w=majority"
+mongo = PyMongo(app)
+
 
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
@@ -19,22 +23,60 @@ def index():
 # The user has decided to play the game.
 @app.route("/game")
 def game():
+    xname = request.args.get('X')
+    oname = request.args.get('O')
+
+    if xname is None or oname is None:
+        return render_template("start.html")
+
+
     if "board" not in session:
+        print("Creating new game...")
         session["board"] = [[None, None, None], [None, None, None], [None, None, None]]
         session["turn"] = "X" 
+        doc = { "xname": xname, "oname": oname }
+        record = mongo.db.players.insert_one(doc)
+        objectId = record.inserted_id
+        session["objectId"] = objectId # The objectId saved in the session
+        session["xname"] = xname
+        session["oname"] = oname
+
+
+    xname = session["xname"]
+    oname = session["oname"]
     result = winner(session["board"])
+
     if(result[0] == True):
-        return render_template("end.html", result = result[1])
+        if(result[1] == "X"):
+            player_name = session["xname"]
+        else:
+            player_name = session["oname"]  
+
+        objectId = session["objectId"]     
+        mongo.db.players.update_one(
+            {"_id": objectId}, # selector
+            {"$set": {"winner": player_name }} # update
+        )
+        cursor = list(mongo.db.players.find({"winner": {"$exists": True}}))
+        # Clean the cache for new game
+        session.pop('board')
+
+        return render_template("end.html", result = result[1], player_name = player_name, history = cursor)
     elif(result[0] == False):
-        return render_template("draw.html", result = "It's a draw, play again!")
+        # Clean the cache for new game
+        session.pop('board')
+
+        return render_template("draw.html", result = "It's a draw, play again!", history = cursor)
+
     # if(result == None):
     else:
-        return render_template("game.html", game = session["board"], turn = session["turn"])
+        return render_template("game.html", game = session["board"], turn = session["turn"], xname=xname, oname=oname)
 
 
 # Where on the board I want to play the next move.
 @app.route("/play/<int:row>/<int:col>")
 def play(row, col):
+
     # Shows who playing now
     session["board"][row][col] = session["turn"]
     if session["turn"] == "X":
@@ -42,7 +84,7 @@ def play(row, col):
     else:
         session["turn"] = "X"
     #  redirect to a game function.
-    return redirect(url_for("game")) 
+    return redirect(url_for("game", X = session["xname"], O = session["oname"])) 
 
 # The user let computer make a move.
 @app.route("/computerMove")
@@ -127,5 +169,3 @@ def minmax(board, turn):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-

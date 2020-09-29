@@ -1,16 +1,39 @@
 {% extends "layout.html" %}
 {% block content%}
-
 <div id="winner_image">
     {% if result == "X" %}
-    <h2> <img src="https://freetictactoe.com/images/mark-x.png"/> is the winner!!! </h2>
+    <h2> <img src="https://freetictactoe.com/images/mark-x.png"/> ({{player_name}}) is the winner!!! </h2>
     {% elif result == "O" %}
-    <h2> <img src="https://freetictactoe.com/images/mark-o.png"/> is the winner!!! </h2>
+    <h2> <img src="https://freetictactoe.com/images/mark-o.png"/> ({{player_name}}) is the winner!!! </h2>
     {% endif %}
     </div>
 
 <div id="buttons">
-<a href="/reset"><button class="button">Do you want to play again?</button></a>
+<a href="/"><button class="button">Do you want to play again?</button></a>
 </div>
+
+<div id="scores">
+<h2>Scores:</h2>
+<table id="scores_table">
+    <tr>
+        <th>Player X</th>
+        <th>Player O</th>
+        <th>Winner</th>
+    </tr>
+    {% for record in history %}
+    <tr>
+        <td>
+          {{ record.xname }}
+        </td>
+        <td>
+            {{ record.oname }}
+        </td>
+        <td>
+           {{ record.winner}}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</div>    
     
 {% endblock %}

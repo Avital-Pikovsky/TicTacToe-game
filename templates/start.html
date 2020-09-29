@@ -11,7 +11,27 @@
 </div>
 
 <div id="buttons">
-<a href="/game"><button class="button">Start Playing!</button></a>
+<button class="button" onclick="startGame()">Start Playing!</button>
 </div>
+
+
+<script>
+
+function startGame() {
+    if(document.getElementById("xname").value.length == 0 || document.getElementById("oname").value.length == 0)
+    {
+        alert("empty xname or oname")
+        document.getElementById("xname").value = ""
+        document.getElementById("oname").value = ""
+    }
+    else { // Go to /game
+        var xname = document.getElementById("xname").value
+        var oname = document.getElementById("oname").value
+        window.location.assign("/game?X=" + xname + "&O=" + oname)
+    }
+   
+}
+
+</script>
 
 {% endblock %}
