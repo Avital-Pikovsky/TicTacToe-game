@@ -125,7 +125,7 @@ def minmax(board, turn):
                 board[i][j] = None
         return (value, step)
 
-
-    
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
