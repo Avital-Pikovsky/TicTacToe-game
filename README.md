@@ -29,7 +29,12 @@ CS50 Beyond 2019 - Tic Tac Toe Web App
 
 
 
-![2](https://user-images.githubusercontent.com/57085913/94557756-a8b12200-0267-11eb-9abd-991aa6816e24.png)
+![1](https://user-images.githubusercontent.com/57085913/94795809-8f82af80-03e6-11eb-9474-cd920e015f76.png)
+
+
+
+
+  ![2](https://user-images.githubusercontent.com/57085913/94795882-a88b6080-03e6-11eb-93d6-7b41b5fb329c.png)
 
 
 
