@@ -2,18 +2,20 @@ from flask import Flask, render_template, session, request, redirect, url_for
 from flask_session import Session
 from tempfile import mkdtemp
 from flask_pymongo import PyMongo
+import os
+from bson import ObjectId
+
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://avitalUsr:316331198@avital-shard-00-00.akkop.mongodb.net:27017,avital-shard-00-01.akkop.mongodb.net:27017,avital-shard-00-02.akkop.mongodb.net:27017/CS50TicTacToe?ssl=true&replicaSet=Avital-shard-0&authSource=admin&retryWrites=true&w=majority"
+app.config["MONGO_URI"] ="mongodb://avitalUsr:316331198@avital-shard-00-00.akkop.mongodb.net:27017,avital-shard-00-01.akkop.mongodb.net:27017,avital-shard-00-02.akkop.mongodb.net:27017/CS50TicTacToe?ssl=true&replicaSet=Avital-shard-0&authSource=admin&retryWrites=true&w=majority"
+# app.config["MONGO_URI"] = "mongodb://avitalUsr:316331198@avital-shard-00-00.akkop.mongodb.net:27017,avital-shard-00-01.akkop.mongodb.net:27017,avital-shard-00-02.akkop.mongodb.net:27017/CS50TicTacToe?ssl=true&replicaSet=Avital-shard-0&authSource=admin&retryWrites=true&w=majority"
 mongo = PyMongo(app)
-
-
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
-app.secret_key = "secret key"
+app = Flask(__name__)
+app.secret_key = "Piko Piko"
 
 # First page that user sees.
 @app.route("/")
@@ -37,7 +39,7 @@ def game():
         doc = { "xname": xname, "oname": oname }
         record = mongo.db.players.insert_one(doc)
         objectId = record.inserted_id
-        session["objectId"] = objectId # The objectId saved in the session
+        session["string_objectId"] = str(objectId) # The objectId saved in the session
         session["xname"] = xname
         session["oname"] = oname
 
@@ -52,7 +54,8 @@ def game():
         else:
             player_name = session["oname"]  
 
-        objectId = session["objectId"]     
+        string_objectId = session["string_objectId"]  
+        objectId = ObjectId(string_objectId)   
         mongo.db.players.update_one(
             {"_id": objectId}, # selector
             {"$set": {"winner": player_name }} # update
