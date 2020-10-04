@@ -18,11 +18,11 @@ CS50 Beyond 2019 - Tic Tac Toe Web App
 
 6. Change the current working directory to the file you cloned.
 
-7. Type *export FLASK_APP=application.py* and press Enter.
+7. Type `export FLASK_APP=application.py` and press Enter.
 
-8. Type *flask run* and press Enter.
+8. Type `flask run` and press Enter.
 
-9. Press Ctrl+click on http://localhost:5000/.
+9. Go to http://localhost:5000/.
 
 10. Start to play :video_game:
 
