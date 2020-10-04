@@ -4,10 +4,11 @@ from tempfile import mkdtemp
 from flask_pymongo import PyMongo
 import os
 from bson import ObjectId
-
+from datetime import datetime
+import pymongo
 
 app = Flask(__name__)
-app.config["MONGO_URI"] ="mongodb://avitalUsr:316331198@avital-shard-00-00.akkop.mongodb.net:27017,avital-shard-00-01.akkop.mongodb.net:27017,avital-shard-00-02.akkop.mongodb.net:27017/CS50TicTacToe?ssl=true&replicaSet=Avital-shard-0&authSource=admin&retryWrites=true&w=majority"
+app.config["MONGO_URI"] = "mongodb://localhost:27017/newCS50"
 # app.config["MONGO_URI"] = "mongodb://avitalUsr:316331198@avital-shard-00-00.akkop.mongodb.net:27017,avital-shard-00-01.akkop.mongodb.net:27017,avital-shard-00-02.akkop.mongodb.net:27017/CS50TicTacToe?ssl=true&replicaSet=Avital-shard-0&authSource=admin&retryWrites=true&w=majority"
 mongo = PyMongo(app)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -22,6 +23,11 @@ app.secret_key = "Piko Piko"
 def index():
     return render_template("start.html")
 
+@app.route("/scores")
+def scores():
+    cursor = list(mongo.db.players.find({"winner": {"$exists": True}}).sort([("_id",pymongo.DESCENDING)]))
+    return render_template("scores.html", history = cursor)
+
 # The user has decided to play the game.
 @app.route("/game")
 def game():
@@ -34,15 +40,40 @@ def game():
 
     if "board" not in session:
         print("Creating new game...")
-        session["board"] = [[None, None, None], [None, None, None], [None, None, None]]
-        session["turn"] = "X" 
-        doc = { "xname": xname, "oname": oname }
+
+
+        # Mongo Documents Example:
+        # {
+        #     _id: ObjectId("12Digits"), # Game Id
+        #     xname: String,
+        #     oname: String,
+        #     winner: xname, # Field exists only if there a winner
+        #     createdAt: Time # When the game started
+        #     duration: Time # How much time did the game was, if there no winner so there no such field
+
+        #     Only for multGame:
+        #     XTurn: Boolean # True/False Im In Progress of game, otherwise, there no such field
+        # }
+
+        # Database Saving:
+        dateFormat = '%Y-%m-%d %H:%M:%S.%f'
+        currentTime = datetime.now().strftime(dateFormat)
+        doc = { 
+            "xname": xname,
+            "oname": oname,
+            "createdAt": currentTime
+            }
+
         record = mongo.db.players.insert_one(doc)
         objectId = record.inserted_id
-        session["string_objectId"] = str(objectId) # The objectId saved in the session
+
+        # Session Saving:
+        session["board"] = [[None, None, None], [None, None, None], [None, None, None]]
+        session["turn"] = "X" 
         session["xname"] = xname
         session["oname"] = oname
-
+        session["gameId"] = str(objectId) 
+        session["createdAt"] = currentTime
 
     xname = session["xname"]
     oname = session["oname"]
@@ -54,13 +85,13 @@ def game():
         else:
             player_name = session["oname"]  
 
-        string_objectId = session["string_objectId"]  
-        objectId = ObjectId(string_objectId)   
-        mongo.db.players.update_one(
-            {"_id": objectId}, # selector
-            {"$set": {"winner": player_name }} # update
-        )
-        cursor = list(mongo.db.players.find({"winner": {"$exists": True}}))
+
+        dateFormat = '%Y-%m-%d %H:%M:%S.%f'
+        duration = ':'.join(str(datetime.now() - datetime.strptime(session["createdAt"], dateFormat)).split(':')[:3])
+        gameId = session["gameId"]  
+        objectId = ObjectId(gameId)   
+        mongo.db.players.update_one({"_id": objectId},{"$set": {"winner": player_name, "duration": duration}})
+        cursor = list(mongo.db.players.find({"winner": {"$exists": True}}).sort([("_id",pymongo.DESCENDING)]))
         # Clean the cache for new game
         session.clear()
 

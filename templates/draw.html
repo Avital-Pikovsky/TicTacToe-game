@@ -14,6 +14,8 @@
             <th>Player X</th>
             <th>Player O</th>
             <th>Winner</th>
+            <th>Game Started At</th>
+            <th>Duration</th>
         </tr>
         {% for record in history %}
         <tr>
@@ -26,11 +28,17 @@
             <td>
                {{ record.winner}}
             </td>
+            <td>
+                {{ record.createdAt}}
+            </td>
+            <td>
+                {{ record.duration}}
+            </td>                 
         </tr>
         {% endfor %}
     </table>
-</div>   
-    
+    </div>    
+        
 
 
 {% endblock %}
