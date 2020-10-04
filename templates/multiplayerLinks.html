@@ -4,12 +4,25 @@
 <div id="links">
 <h2>Links:</h2>
 
-<label for="xTitle">Send to X'th Player:</label> 
-<a href="{{xLink}}">{{xLink}}</a> 
+<label for="xTitle">Send to X'th ({{xname}}) Player: </label> 
+<a id="xLink" href="{{xLink}}">{{xLink}}</a> 
+
 <br />
-<label for="oTitle">Send to O'th Player:</label>
-<a href="{{oLink}}">{{oLink}}</a>
+
+<label for="oTitle">Send to O'th ({{oname}}) Player:  </label>
+<a id="oLink" href="{{oLink}}">{{oLink}}</a>
 
 </div>
+
+<script>
+window.onload = function() {
+    var baseURL =  window.location.origin
+    var currentXLink = document.getElementById("xLink").innerHTML
+    var currentOLink = document.getElementById("oLink").innerHTML
+    document.getElementById("xLink").innerHTML = baseURL + currentXLink
+    document.getElementById("oLink").innerHTML = baseURL + currentOLink
+};
+
+</script>
 
 {% endblock %}

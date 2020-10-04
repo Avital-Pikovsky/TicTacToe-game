@@ -44,7 +44,7 @@ def createMultiplayer():
     objectId = record.inserted_id
     xLink = "/multiplayer?gameId=" + str(objectId) + "&player=X" 
     oLink = "/multiplayer?gameId=" + str(objectId) + "&player=O" 
-    return render_template("/multiplayerLinks.html", xLink = xLink, oLink = oLink)
+    return render_template("/multiplayerLinks.html", xLink = xLink, xname = xname, oname = oname, oLink = oLink)
 
 
 @app.route("/multiplayer") #/multiplayer?gameId=12bits&player=X

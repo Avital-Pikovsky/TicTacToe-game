@@ -2,14 +2,17 @@
 {% block content %}
 
 <div id="multiplayer">
-Hello <p id="my_name">{{ my_name }}</p>! </h2>
-<hr>
-It's <p id="player_name">{{ player_name }}</p>'s Turn!</h2>
+<h2>Multiplayer Game!</h2>
+Hello <div class="nobreak" id="my_name">{{ my_name }}</div>!
+
+<div id="turn">
+It's <div class ="nobreak" id="player_name">{{ player_name }}</div>'s Turn!
  {% if player_who_need_to_play == 'X' %}
-    <img src="https://freetictactoe.com/images/mark-x.png"/>
+    <img class="symbol" src="https://freetictactoe.com/images/mark-x.png"/>
  {% else %}
-    <img src="https://freetictactoe.com/images/mark-o.png"/>
+    <img class="symbol" src="https://freetictactoe.com/images/mark-o.png"/>
  {% endif %}
+</div>
 <table id="main_game_table">
     {% for i in range(3) %}
     <tr>

@@ -125,23 +125,31 @@ input[type=text] {
   display: table;
   margin-right: auto;
   margin-left: auto;
-  padding: 20px 5px 0px 20px;
+  font-size: 20px;
 }
 
-#links a {
-  padding: 10px 10px;
-  text-align: center;
+
+#multiplayer .nobreak {
+  display:inline;
 }
 
 #multiplayer {
   display: table;
   margin-right: auto;
   margin-left: auto;
+  text-align: center;
 }
 
-#multiplayer img {
-  display: table;
-  margin-right: auto;
-  margin-left: auto;
-  padding: 20px;
+#multiplayer .symbol {
+margin-left: 10px;
+width: 15px;
+height: 15px;
+}
+
+#multiplayer #turn {
+  margin-top: 35px;
+}
+
+#multiplayer #main_game_table {
+  margin-top: 35px;
 }
