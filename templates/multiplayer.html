@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="multiplayer">
+Hello <p id="my_name">{{ my_name }}</p>! </h2>
+<hr>
+It's <p id="player_name">{{ player_name }}</p>'s Turn!</h2>
+ {% if player_who_need_to_play == 'X' %}
+    <img src="https://freetictactoe.com/images/mark-x.png"/>
+ {% else %}
+    <img src="https://freetictactoe.com/images/mark-o.png"/>
+ {% endif %}
+<table id="main_game_table">
+    {% for i in range(3) %}
+    <tr>
+        {% for j in range(3) %}
+        <td>
+            {% if board[i][j] == "X" %}    {{ myname }}
+
+                <img src="https://freetictactoe.com/images/mark-x.png"/>
+            {% elif board[i][j] == "O" %}
+                <img src="https://freetictactoe.com/images/mark-o.png"/>
+            {% else %}
+                {% if INeedToPlay %}
+                <a href="{{ url_for('playMultiplayer', gameId=gameId, row=i, col=j) }}">Play here.</a>
+                {% endif %}    
+            
+            {% endif %}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+</div>
+<script>
+
+window.onload = function() {
+    if(!(document.getElementById("my_name").innerHTML === document.getElementById("player_name").innerHTML)) refresh();
+};
+
+function refresh() {
+    setTimeout(function(){
+                window.location.reload(1);
+                }, 1000);
+}
+
+</script>
+{% endblock %}

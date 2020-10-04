@@ -13,35 +13,39 @@
 </div>
 
 <div id="scores">
-<h2>Scores:</h2>
-<table id="scores_table">
-    <tr>
-        <th>Player X</th>
-        <th>Player O</th>
-        <th>Winner</th>
-        <th>Game Started At</th>
-        <th>Duration</th>
-    </tr>
-    {% for record in history %}
-    <tr>
-        <td>
-          {{ record.xname }}
-        </td>
-        <td>
-          {{ record.oname }}
-        </td>
-        <td>
-           {{ record.winner}}
-        </td>
-        <td>
-            {{ record.createdAt}}
-        </td>
-        <td>
-            {{ record.duration}}
-        </td>                 
-    </tr>
-    {% endfor %}
-</table>
-</div>    
+    <h2>Scores:</h2>
+    <table id="scores_table">
+        <tr>
+            <th>Player X</th>
+            <th>Player O</th>
+            <th>Winner</th>
+            <th>Game Started At</th>
+            <th>Duration</th>
+            <th>Multiplayer Game</th>
+        </tr>
+        {% for record in history %}
+        <tr>
+            <td>
+              {{ record.xname }}
+            </td>
+            <td>
+              {{ record.oname }}
+            </td>
+            <td>
+               {{ record.winner}}
+            </td>
+            <td>
+                {{ record.createdAt}}
+            </td>
+            <td>
+                {{ record.duration}}
+            </td>  
+            <td>
+                {{ record.multiGame}}
+            </td>                         
+        </tr>
+        {% endfor %}
+    </table>
+    </div>  
     
 {% endblock %}

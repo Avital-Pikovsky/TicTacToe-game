@@ -32,7 +32,6 @@ body #header {
   margin: 0 auto;
   cursor: pointer;
   margin: 0px 20px 0px 20px;
-  width: 144px;
 }
 
 #main_game_table {
@@ -120,4 +119,29 @@ input[type=text] {
  text-align: center;
  border: 1px solid black;
  padding: 10px;
+}
+
+#links {
+  display: table;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px 5px 0px 20px;
+}
+
+#links a {
+  padding: 10px 10px;
+  text-align: center;
+}
+
+#multiplayer {
+  display: table;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#multiplayer img {
+  display: table;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px;
 }

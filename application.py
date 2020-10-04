@@ -6,6 +6,7 @@ import os
 from bson import ObjectId
 from datetime import datetime
 import pymongo
+import random
 
 app = Flask(__name__)
 # app.config["MONGO_URI"] = "mongodb://localhost:27017/newCS50"
@@ -18,10 +19,97 @@ Session(app)
 app = Flask(__name__)
 app.secret_key = "Piko Piko"
 
+
 # First page that user sees.
 @app.route("/")
 def index():
     return render_template("start.html")
+
+@app.route("/createMultiplayer")
+def createMultiplayer():
+    xname = request.args.get('X')
+    oname = request.args.get('O')
+    dateFormat = '%Y-%m-%d %H:%M:%S.%f'
+    currentTime = datetime.now().strftime(dateFormat)
+    doc = { 
+            "multiGame": True,
+            "xname": xname,
+            "oname": oname,
+            "createdAt": currentTime,
+            "XTurn": random.choice([True, False]),
+            "board": [[None, None, None], [None, None, None], [None, None, None]]
+        }
+
+    record = mongo.db.players.insert_one(doc)
+    objectId = record.inserted_id
+    xLink = "/multiplayer?gameId=" + str(objectId) + "&player=X" 
+    oLink = "/multiplayer?gameId=" + str(objectId) + "&player=O" 
+    return render_template("/multiplayerLinks.html", xLink = xLink, oLink = oLink)
+
+
+@app.route("/multiplayer") #/multiplayer?gameId=12bits&player=X
+def multiplayer():
+    gameId = request.args.get('gameId')
+    player = request.args.get('player') # X or O
+
+    document = mongo.db.players.find_one({"_id": ObjectId(gameId)})
+    
+    result = winner(document['board'])
+    if(result[0] == True):
+        if(result[1] == "X"):
+            player_name = document["xname"]
+        else:
+            player_name = document["oname"]  
+        
+        dateFormat = '%Y-%m-%d %H:%M:%S.%f'
+        deltaTime = str(datetime.now() - datetime.strptime(document["createdAt"], dateFormat))
+        mongo.db.players.update_one({"_id": ObjectId(gameId)},{"$set": {"winner": player_name, "duration": deltaTime}})
+        cursor = list(mongo.db.players.find({"winner": {"$exists": True}}).sort([("_id",pymongo.DESCENDING)]))
+        return render_template("end.html", result = result[1], player_name = player_name, history = cursor)
+
+    elif(result[0] == False):
+        cursor = list(mongo.db.players.find({"winner": {"$exists": True}}))
+        return render_template("draw.html", result = "It's a draw, play again!", history = cursor)
+
+    else:
+        if((document['XTurn'] == True and player == 'X') or (document['XTurn'] == False and player == 'O')):
+            YouNeedToPlay = True  
+        else:
+            YouNeedToPlay = False
+
+        if(document['XTurn'] == True):
+            player_name = document['xname']
+            player_who_need_to_play ='X'
+        else:
+            player_name = document['oname']
+            player_who_need_to_play = 'O'
+
+        if(player == 'X'):
+            your_name = document['xname']
+        else:
+            your_name = document['oname']
+
+        return render_template("multiplayer.html", gameId = gameId, player_who_need_to_play = player_who_need_to_play, board = document['board'], INeedToPlay = YouNeedToPlay, player_name = player_name, my_name = your_name)
+
+# Where on the board I want to play the next move on multiplayer
+@app.route("/playMultiplayer/<gameId>/<int:row>/<int:col>")
+def playMultiplayer(gameId, row, col):
+   
+    document = mongo.db.players.find_one({"_id": ObjectId(gameId)})
+
+    board = document['board']
+
+    if(document['XTurn'] == True):
+        player_type ='X'
+    else:
+        player_type = 'O'
+
+    board[row][col] = player_type
+
+    mongo.db.players.update_one({"_id": ObjectId(gameId)},{"$set": {"board": board, "XTurn": player_type == 'O'}})
+
+    return redirect(url_for("multiplayer", gameId = gameId, player = player_type)) 
+
 
 @app.route("/scores")
 def scores():
@@ -49,10 +137,10 @@ def game():
         #     oname: String,
         #     winner: xname, # Field exists only if there a winner
         #     createdAt: Time # When the game started
-        #     duration: Time # How much time did the game was, if there no winner so there no such field
+        #     duration: Time # How much time did the game was
 
         #     Only for multGame:
-        #     XTurn: Boolean # True/False Im In Progress of game, otherwise, there no such field
+        #     XTurn: Boolean # True/False 
         # }
 
         # Database Saving:
@@ -61,7 +149,8 @@ def game():
         doc = { 
             "xname": xname,
             "oname": oname,
-            "createdAt": currentTime
+            "createdAt": currentTime,
+            "multiGame": False
             }
 
         record = mongo.db.players.insert_one(doc)
@@ -87,10 +176,11 @@ def game():
 
 
         dateFormat = '%Y-%m-%d %H:%M:%S.%f'
-        duration = ':'.join(str(datetime.now() - datetime.strptime(session["createdAt"], dateFormat)).split(':')[:3])
+        deltaTime = str(datetime.now() - datetime.strptime(session["createdAt"], dateFormat))
+
         gameId = session["gameId"]  
         objectId = ObjectId(gameId)   
-        mongo.db.players.update_one({"_id": objectId},{"$set": {"winner": player_name, "duration": duration}})
+        mongo.db.players.update_one({"_id": objectId},{"$set": {"winner": player_name, "duration": deltaTime}})
         cursor = list(mongo.db.players.find({"winner": {"$exists": True}}).sort([("_id",pymongo.DESCENDING)]))
         # Clean the cache for new game
         session.clear()

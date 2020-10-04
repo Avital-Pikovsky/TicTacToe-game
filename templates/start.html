@@ -11,12 +11,28 @@
 </div>
 
 <div id="buttons">
-    <button class="button" onclick="startGame()">Play!</button>
-    <a href="/scores"><button class="button">Scores</button></a>
+    <button class="button" onclick="startGame()">Single Player</button>
+    <button class="button" onclick="createMultiplayer()">Create Multiplayer</button>
+    <a href="/scores"><button class="button">View Scores</button></a>
 </div>
 
 
 <script>
+
+function createMultiplayer() {
+    if(document.getElementById("xname").value.length == 0 || document.getElementById("oname").value.length == 0)
+    {
+        alert("empty xname or oname")
+        document.getElementById("xname").value = ""
+        document.getElementById("oname").value = ""
+    }
+    else { // Go to /game
+        var xname = document.getElementById("xname").value
+        var oname = document.getElementById("oname").value
+        window.location.assign("/createMultiplayer?X=" + xname + "&O=" + oname)
+    }
+   
+}
 
 function startGame() {
     if(document.getElementById("xname").value.length == 0 || document.getElementById("oname").value.length == 0)
@@ -30,7 +46,7 @@ function startGame() {
         var oname = document.getElementById("oname").value
         window.location.assign("/game?X=" + xname + "&O=" + oname)
     }
-   
+
 }
 
 </script>
