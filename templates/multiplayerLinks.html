@@ -3,25 +3,36 @@
 
 <div id="links">
 <h2>Links:</h2>
+<p>
+  <label for="oTitle">Copy and send to your partner,  <img src="https://freetictactoe.com/images/mark-o.png"/> Player: </label>
+  <a id="oLink" href="#" onclick="copyToClipboard('#oLink')">{{oLink}} </a>
+</p>
+<label for="xTitle"><img src="https://freetictactoe.com/images/mark-x.png"/> Player: </label> 
 
-<label for="xTitle">Send to X'th ({{xname}}) Player: </label> 
-<a id="xLink" href="{{xLink}}">{{xLink}}</a> 
+<div id="buttons">
+  <a id="xLink" href="{{xLink}}"><button class="button">Play!</button></a>
+</div>
 
-<br />
-
-<label for="oTitle">Send to O'th ({{oname}}) Player:  </label>
-<a id="oLink" href="{{oLink}}">{{oLink}}</a>
 
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
 window.onload = function() {
     var baseURL =  window.location.origin
-    var currentXLink = document.getElementById("xLink").innerHTML
     var currentOLink = document.getElementById("oLink").innerHTML
-    document.getElementById("xLink").innerHTML = baseURL + currentXLink
     document.getElementById("oLink").innerHTML = baseURL + currentOLink
 };
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+  alert("Link is copied")
+}
+
 
 </script>
 

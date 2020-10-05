@@ -86,6 +86,7 @@ body #header {
   width: 25px;
   height: 25px
 }
+
 input[type=text] {
   width: 100%;
   padding: 12px 20px;
@@ -125,9 +126,16 @@ input[type=text] {
   display: table;
   margin-right: auto;
   margin-left: auto;
-  font-size: 20px;
+  text-align: center;
+  font-size: 25px;
 }
-
+#links img{
+  width: 25px;
+  height: 25px
+}
+#links p {
+  white-space: pre-line;
+}
 
 #multiplayer .nobreak {
   display:inline;
@@ -138,16 +146,18 @@ input[type=text] {
   margin-right: auto;
   margin-left: auto;
   text-align: center;
+  font-size: 25px;
 }
 
 #multiplayer .symbol {
 margin-left: 10px;
-width: 15px;
-height: 15px;
+width: 25px;
+height: 25px;
 }
 
 #multiplayer #turn {
   margin-top: 35px;
+
 }
 
 #multiplayer #main_game_table {
