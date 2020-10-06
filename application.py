@@ -8,14 +8,18 @@ from datetime import datetime
 import pymongo
 import random
 
+# Turn this file to web application
 app = Flask(__name__)
+
 # app.config["MONGO_URI"] = "mongodb://localhost:27017/newCS50"
 app.config["MONGO_URI"] = "mongodb://avitalUsr:316331198@avital-shard-00-00.akkop.mongodb.net:27017,avital-shard-00-01.akkop.mongodb.net:27017,avital-shard-00-02.akkop.mongodb.net:27017/CS50TicTacToe?ssl=true&replicaSet=Avital-shard-0&authSource=admin&retryWrites=true&w=majority"
+
 mongo = PyMongo(app)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
 app = Flask(__name__)
 app.secret_key = "Piko Piko"
 
@@ -25,6 +29,7 @@ app.secret_key = "Piko Piko"
 def index():
     return render_template("start.html")
 
+# Multiplayer game:
 @app.route("/createMultiplayer")
 def createMultiplayer():
     xname = request.args.get('X')
@@ -91,7 +96,7 @@ def multiplayer():
 
         return render_template("multiplayer.html", gameId = gameId, player_who_need_to_play = player_who_need_to_play, board = document['board'], INeedToPlay = YouNeedToPlay, player_name = player_name, my_name = your_name)
 
-# Where on the board I want to play the next move on multiplayer
+# Where on the board I want to play the next move on multiplayer game.
 @app.route("/playMultiplayer/<gameId>/<int:row>/<int:col>")
 def playMultiplayer(gameId, row, col):
    
@@ -116,7 +121,7 @@ def scores():
     cursor = list(mongo.db.players.find({"winner": {"$exists": True}}).sort([("_id",pymongo.DESCENDING)]))
     return render_template("scores.html", history = cursor)
 
-# The user has decided to play the game.
+# Single player game:
 @app.route("/game")
 def game():
     xname = request.args.get('X')
@@ -128,20 +133,6 @@ def game():
 
     if "board" not in session:
         print("Creating new game...")
-
-
-        # Mongo Documents Example:
-        # {
-        #     _id: ObjectId("12Digits"), # Game Id
-        #     xname: String,
-        #     oname: String,
-        #     winner: xname, # Field exists only if there a winner
-        #     createdAt: Time # When the game started
-        #     duration: Time # How much time did the game was
-
-        #     Only for multGame:
-        #     XTurn: Boolean # True/False 
-        # }
 
         # Database Saving:
         dateFormat = '%Y-%m-%d %H:%M:%S.%f'
@@ -200,7 +191,7 @@ def game():
         return render_template("game.html", game = session["board"], turn = session["turn"], xname=xname, oname=oname)
 
 
-# Where on the board I want to play the next move.
+# Where on the board I want to play the next move on single player game.
 @app.route("/play/<int:row>/<int:col>")
 def play(row, col):
 
@@ -213,7 +204,7 @@ def play(row, col):
     #  redirect to a game function.
     return redirect(url_for("game", X = session["xname"], O = session["oname"])) 
 
-# The user let computer make a move.
+# The user let computer makes a move.
 @app.route("/computerMove")
 def move():
     result = minmax(session["board"], session["turn"])
@@ -254,6 +245,8 @@ def winner(board):
     # Draw
     return [False, board[0][0]]
 
+# Function that makes the best move on the board,
+#  if the user let computer makes a move.
 def minmax(board, turn):
 
     # If the game is over.
@@ -296,3 +289,16 @@ def minmax(board, turn):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+        # Mongo Documents Example:
+        # {
+        #     _id: ObjectId("12Digits"), -> Game Id
+        #     xname: String,
+        #     oname: String,
+        #     winner: xname, # Field exists only if there a winner
+        #     createdAt: Time # When the game started
+        #     duration: Time # How much time did the game was
+
+        #     Only for multGame:
+        #     XTurn: Boolean # True/False 
+        # }

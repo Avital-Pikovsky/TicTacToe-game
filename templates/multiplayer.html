@@ -7,6 +7,7 @@ Hello <div class="nobreak" id="my_name">{{ my_name }}</div>!
 
 <div id="turn">
 It's <div class ="nobreak" id="player_name">{{ player_name }}</div>'s Turn!
+
  {% if player_who_need_to_play == 'X' %}
     <img class="symbol" src="https://freetictactoe.com/images/mark-x.png"/>
  {% else %}
@@ -18,11 +19,12 @@ It's <div class ="nobreak" id="player_name">{{ player_name }}</div>'s Turn!
     <tr>
         {% for j in range(3) %}
         <td>
-            {% if board[i][j] == "X" %}    {{ myname }}
-
+            {% if board[i][j] == "X" %}
                 <img src="https://freetictactoe.com/images/mark-x.png"/>
+
             {% elif board[i][j] == "O" %}
                 <img src="https://freetictactoe.com/images/mark-o.png"/>
+                
             {% else %}
                 {% if INeedToPlay %}
                 <a href="{{ url_for('playMultiplayer', gameId=gameId, row=i, col=j) }}">Play here.</a>
