@@ -20,7 +20,7 @@
 <script>
 
 function createMultiplayer() {
-    if(document.getElementById("xname").value.length == 0 || document.getElementById("oname").value.length == 0)
+    if(!document.getElementById("xname").value|| !document.getElementById("oname").value)
     {
         alert("empty xname or oname")
         document.getElementById("xname").value = ""
@@ -34,7 +34,7 @@ function createMultiplayer() {
 }
 
 function startGame() {
-    if(document.getElementById("xname").value.length == 0 || document.getElementById("oname").value.length == 0)
+    if(!document.getElementById("xname").value || !document.getElementById("oname").value)
     {
         alert("empty xname or oname")
         document.getElementById("xname").value = ""

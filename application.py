@@ -27,6 +27,8 @@ app.secret_key = "Piko Piko"
 # First page that user sees.
 @app.route("/")
 def index():
+    # Clean the cache for new game
+    session.clear()
     return render_template("start.html")
 
 # Multiplayer game:
@@ -173,16 +175,11 @@ def game():
         objectId = ObjectId(gameId)   
         mongo.db.players.update_one({"_id": objectId},{"$set": {"winner": player_name, "duration": deltaTime}})
         cursor = list(mongo.db.players.find({"winner": {"$exists": True}}).sort([("_id",pymongo.DESCENDING)]))
-        # Clean the cache for new game
-        session.clear()
 
         return render_template("end.html", result = result[1], player_name = player_name, history = cursor)
     elif(result[0] == False):
         
         cursor = list(mongo.db.players.find({"winner": {"$exists": True}}))
-
-        # Clean the cache for new game
-        session.clear()
 
         return render_template("draw.html", result = "It's a draw, play again!", history = cursor)
 
@@ -218,7 +215,7 @@ def init():
     session["board"] = [[None, None, None], [None, None, None], [None, None, None]]
     session["turn"] = "X"
 
-    return redirect(url_for("game"))
+    return redirect(url_for("game", X = session["xname"], O = session["oname"])) 
 
 # A function that checks who the winner is.
 def winner(board):
