@@ -129,12 +129,7 @@ def game():
     xname = request.args.get('X')
     oname = request.args.get('O')
 
-    if xname is None or oname is None:
-        return render_template("start.html")
-
-
     if "board" not in session:
-        print("Creating new game...")
 
         # Database Saving:
         dateFormat = '%Y-%m-%d %H:%M:%S.%f'
@@ -185,7 +180,14 @@ def game():
 
     # if(result == None):
     else:
-        return render_template("game.html", game = session["board"], turn = session["turn"], xname=xname, oname=oname)
+        if session["oname"] == "computer":
+            if session["turn"] == "X":
+                player = session["xname"]
+            else: 
+                player = session["oname"]
+            return render_template("computer.html", game = session["board"], turn = session["turn"], xname=xname, oname=oname, player = player)
+        else:
+            return render_template("game.html", game = session["board"], turn = session["turn"], xname=xname, oname=oname)
 
 
 # Where on the board I want to play the next move on single player game.
@@ -263,7 +265,7 @@ def minmax(board, turn):
             for j in range(3):
                 if(board[i][j] == None):
                     moves.append((i,j))
-        
+        # X want to maximize the score.
         if turn == "X":
             value = -100
             for i,j in moves:
@@ -274,6 +276,7 @@ def minmax(board, turn):
                     step = (i,j)
                 board[i][j] = None
         else:
+            # O want to minimize the score.
             value = 100
             for i,j in moves:
                 board[i][j] = "O"

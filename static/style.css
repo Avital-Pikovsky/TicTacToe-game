@@ -159,7 +159,54 @@ height: 25px;
   margin-top: 35px;
 
 }
-
 #multiplayer #main_game_table {
+  margin-top: 35px;
+}
+
+#computer{
+  display: table;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  font-size: 25px;
+}
+#computer .nobreak {
+  display:inline;
+}
+#computer .symbol {
+  margin-left: 10px;
+  width: 25px;
+  height: 25px;
+  }
+
+#computer #turn {
+  margin-top: 35px;
+
+}
+#computer #main_game_table {
+  margin-top: 35px;
+}
+
+#game{
+  display: table;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  font-size: 25px;
+}
+#game .nobreak {
+  display:inline;
+}
+#game .symbol {
+  margin-left: 10px;
+  width: 25px;
+  height: 25px;
+  }
+
+#game #turn {
+  margin-top: 35px;
+
+}
+#game #main_game_table {
   margin-top: 35px;
 }
