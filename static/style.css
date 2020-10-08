@@ -16,6 +16,8 @@ body #header {
 }
 
 #buttons {
+    display: flex;
+  flex-wrap: wrap;
   display: table;
   margin-right: auto;
   margin-left: auto;
@@ -31,7 +33,7 @@ body #header {
   font-size: 25px;
   margin: 0 auto;
   cursor: pointer;
-  margin: 0px 20px 0px 20px;
+  margin: 0px 20px 5px 5px;
 }
 
 #main_game_table {
