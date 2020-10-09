@@ -26,6 +26,6 @@ CS50 Beyond 2019 - Tic Tac Toe Web App
 
 10. Start to play :video_game:
 
-![1](https://user-images.githubusercontent.com/57085913/95058969-f06cf900-0700-11eb-9356-cecb529ece89.png)
+![1](https://user-images.githubusercontent.com/57085913/95581072-094b1680-0a41-11eb-9ee2-f6f41103c831.png)
 
 
