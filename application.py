@@ -11,8 +11,8 @@ import random
 # Turn this file to web application
 app = Flask(__name__)
 
-# app.config["MONGO_URI"] = "mongodb://localhost:27017/newCS50"
 app.config["MONGO_URI"] = "mongodb://avitalUsr:316331198@avital-shard-00-00.akkop.mongodb.net:27017,avital-shard-00-01.akkop.mongodb.net:27017,avital-shard-00-02.akkop.mongodb.net:27017/CS50TicTacToe?ssl=true&replicaSet=Avital-shard-0&authSource=admin&retryWrites=true&w=majority"
+
 
 mongo = PyMongo(app)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -36,6 +36,10 @@ def index():
 def createMultiplayer():
     xname = request.args.get('X')
     oname = request.args.get('O')
+
+    if xname is None or oname is None:	
+        return render_template("start.html")
+
     dateFormat = '%Y-%m-%d %H:%M:%S.%f'
     currentTime = datetime.now().strftime(dateFormat)
     doc = { 
@@ -58,6 +62,7 @@ def createMultiplayer():
 def multiplayer():
     gameId = request.args.get('gameId')
     player = request.args.get('player') # X or O
+
 
     document = mongo.db.players.find_one({"_id": ObjectId(gameId)})
     
@@ -128,6 +133,9 @@ def scores():
 def game():
     xname = request.args.get('X')
     oname = request.args.get('O')
+
+    if xname is None or oname is None:	
+        return render_template("start.html")
 
     if "board" not in session:
 
