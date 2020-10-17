@@ -16,7 +16,7 @@ body #header {
 }
 
 #buttons {
-    display: flex;
+  display: flex;
   flex-wrap: wrap;
   display: table;
   margin-right: auto;

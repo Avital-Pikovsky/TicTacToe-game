@@ -11,7 +11,8 @@ import random
 # Turn this file to web application
 app = Flask(__name__)
 
-app.config["MONGO_URI"] = "mongodb://avitalUsr:316331198@avital-shard-00-00.akkop.mongodb.net:27017,avital-shard-00-01.akkop.mongodb.net:27017,avital-shard-00-02.akkop.mongodb.net:27017/CS50TicTacToe?ssl=true&replicaSet=Avital-shard-0&authSource=admin&retryWrites=true&w=majority"
+app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
+
 
 
 mongo = PyMongo(app)
@@ -22,7 +23,6 @@ Session(app)
 
 app = Flask(__name__)
 app.secret_key = "Piko Piko"
-
 
 # First page that user sees.
 @app.route("/")
