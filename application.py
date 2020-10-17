@@ -12,8 +12,7 @@ import random
 app = Flask(__name__)
 
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
-
-
+print("Connected to: " + os.environ.get("MONGO_URI"))
 
 mongo = PyMongo(app)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
